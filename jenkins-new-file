@@ -1,15 +1,33 @@
-pipeline{
-agent any
-stages{
-stage('build'){
-steps{
-sh 'echo "build stage completed"'
-}
-}
-stage('test'){
-steps{
-sh ' echo "test stage completed"'
-}
-}
-}
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                // Add build commands here
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                // Add test commands here
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                // Add deployment commands here
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Success!'
+        }
+        failure {
+            echo 'Failure!'
+        }
+    }
 }

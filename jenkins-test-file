@@ -1,10 +1,52 @@
-pipeline{
-agent any
-stages{
-stage('build'){
-steps{
-echo "jenkins test successful"
-}
-}
-}
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables
+        JAVA_HOME = "/usr/java/latest"
+    }
+
+    stages {
+        stage('Initialize') {
+            steps {
+                // Initialize the pipeline environment
+                echo 'Starting the pipeline...'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Compile the code
+                echo 'Building the application...'
+                sh './gradlew build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run unit tests
+                echo 'Running tests...'
+                sh './gradlew test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy the application to the production environment
+                echo 'Deploying the application...'
+                sh './deploy-prod.sh'
+            }
+        }
+    }
+
+    post {
+        success {
+            // Actions to perform if the pipeline succeeds
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            // Actions to perform if the pipeline fails
+            echo 'Pipeline failed.'
+        }
+    }
 }
